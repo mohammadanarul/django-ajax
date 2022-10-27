@@ -5,10 +5,11 @@
     <h1 class="text-center my-2">Product Data Entry</h1>
     <p class="text-center">Djagno and ajax complete crud example.</p>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 m-auto mb-4">
             <div class="card">
                 <div class="card-body">
-                    <form accept="" id="p-form">
+                    <form id="p-form">
+                        {% csrf_token %}
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
                             <input type="text" class="form-control" id="title" placeholder="product title">
@@ -32,93 +33,62 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Brand</th>
-                            <th scope="col">Price</th>
-                          </tr>
-                        </thead>
-                        <tbody id="t-body">
-                        </tbody>
-                      </table>
-                </div>
-            </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="t-body">
+                </tbody>
+                </table>
         </div>
     </div>
+    </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form id="p-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="titleUpdate" placeholder="product title">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <Textarea name="description" class="form-control" id="descriptionUpdate"></Textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="brand" class="form-label">Brand</label>
+                    <input type="text" class="form-control" id="brandUpdate" placeholder="product brand">
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="priceUpdate" placeholder="product price">
+                </div>
+                <div class="col-12 ml-auto">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
-
-{% block javascript %}
-    <script>
-        const tBody = document.getElementById('t-body')
-        $.ajax({
-            type: 'GET',
-            url: `{% url 'product_list_view' %}`,
-            success: function(response){
-                console.log(response.data)
-                data = response.data
-                data.forEach(pd => {
-                    tBody.innerHTML += `
-                        <tr>
-                            <th scope="row">${pd.id}</th>
-                            <td>${pd.title}</td>
-                            <td>${pd.description}</td>
-                            <td>${pd.price}</td>
-                            <td>${pd.brand}</td>
-                        </tr>
-                    `
-                });
-            },
-            error: function (error){
-                console.log(error)
-            }
-        })
-        /**
-         * TODO: CRUD OPERATION
-        $('#productSubmit').click(function(){
-            console.log('wow button working....')
-            let titleValue = $("#title").val()
-            let descriptionValue = $("#description").val()
-            let brandValue = $("#brand").val()
-            let priceValue = $("#price").val()
-
-            if (titleValue === ''){
-                return console.log('enter the title value')
-            }
-            if (descriptionValue === ''){
-                return console.log('enter the description value')
-            }
-            if (brandValue === ''){
-                return console.log('enter the brand value')
-            }
-            if (priceValue === ''){
-                return console.log('enter the price value')
-            }
-            const productData = {
-                title: titleValue,
-                description: descriptionValue,
-                brand: brandValue,
-                price: priceValue
-            }
-            console.log(productData)
-            $.ajax({
-                url: '',
-                method: 'POST',
-                data: productData,
-                success: function (data){
-                    console.log(data)
-                }
-            })
-        })
-        ***/
-    </script>
-{% endblock javascript %}
     
     
